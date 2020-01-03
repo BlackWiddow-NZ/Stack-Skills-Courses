@@ -1,0 +1,33 @@
+#this is the start of the file
+
+import urllib.request
+import sys
+
+urlToRead = 'http://www.google.com'
+#this value won't get used as this is a initialization value for a while loop.
+
+crawledWebLinks = {}
+
+#initializes a dictionary to keep key value pairs. The website url as the value and an easy name to use as a key.
+
+while urlToRead !='':
+    try:
+        urlToRead = input("Please enter the next URL to crawl")
+        if urlToRead == "":
+            print("OK, Exiting loop")
+            break
+        shortName = input("Please enter a short name for that URL")
+        webFile = urllib.request.urlopen("http://"+urlToRead).read() #read the webpage object
+        htmlString = webFile.decode("utf8", 'ignore') #if the 'ignore is not left in the error handling, google will throw a erorr on the decode.
+        crawledWebLinks[shortName] = htmlString #input values into the dictionary
+
+    except:
+        print ("************************************\nUnexpected Error", sys.exc_info()[0])
+        stopOrProceed = input("Input 1 if you want to stop, enter anything else to continue")
+        if stopOrProceed == '1':
+            print("Stopping")
+            break
+        else:
+            print("continuing\n")
+            continue
+print (crawledWebLinks.keys())
